@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlanGenius AI - GenAI Event Planning Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span>PlanGenius</span>
+          <span class="brand-badge">AI Assistant</span>
+        </div>
+      </a>
+
+      <!-- Event Picker Dropdown -->
+      <select id="event-switcher" class="event-picker" title="Switch between planned events">
+        <!-- Dynamically populated -->
+      </select>
+    </div>
+
+    <!-- Top Action Buttons -->
+    <div class="nav-actions">
+      <button class="btn btn-sparkle" onclick="Wizard.open()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        New Event
+      </button>
+
+      <button class="btn btn-secondary" onclick="App.printEvent()" title="Print or save as PDF">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+        Print / PDF
+      </button>
+
+      <button class="btn btn-secondary btn-icon-only" onclick="App.openSettings()" title="Configure Gemini API Key & Model">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+
+      <button class="btn btn-primary" onclick="Copilot.toggle()" style="position: relative;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        AI Co-pilot
+        <span style="width: 8px; height: 8px; background: #34D399; border-radius: 50%; display: inline-block;"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-content">
+    
+    <!-- Hero / Event Banner -->
+    <section class="event-hero">
+      <div class="event-hero-top">
+        <div class="hero-title-group">
+          <div class="event-badge-row">
+            <span id="hero-type-badge" class="badge-type badge-wedding">WEDDING</span>
+            <span id="hero-subtype-badge" class="badge-subtype">Rustic Romance</span>
+            <div id="gemini-status-indicator" style="font-size: 0.75rem; margin-left: 0.5rem;"></div>
+          </div>
+          <h1 id="hero-title" class="event-title">Loading Event...</h1>
+          <div class="event-meta-info">
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              <span id="hero-date">June 18, 2027</span>
+            </div>
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span id="hero-location">Napa Valley, CA</span>
+            </div>
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span id="hero-guests">140 Guests</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Countdown and Options -->
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.65rem;">
+          <div id="hero-countdown" class="countdown-chip">
+            ⏳ Calculating countdown...
+          </div>
+          <div style="display: flex; gap: 0.4rem;">
+            <button class="btn btn-secondary btn-sm" onclick="App.exportJson()" title="Backup event as JSON">Export JSON</button>
+            <label class="btn btn-secondary btn-sm" style="cursor: pointer;" title="Import event JSON">
+              Import
+              <input type="file" accept=".json" style="display: none;" onchange="App.importJson(event)">
+            </label>
+            <button class="btn btn-secondary btn-sm" onclick="App.resetSamples()" title="Restore default sample events">Reset</button>
+            <button class="btn btn-secondary btn-sm" style="color: #EF4444;" onclick="App.deleteCurrentEvent()" title="Delete this event">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick KPI Progress Row -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Budget Allocated</span>
+          <span id="kpi-budget-value" class="kpi-value">$0 / $0</span>
+          <div class="progress-bar-container">
+            <div id="kpi-budget-progress" class="progress-bar-fill fill-primary" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-label">Milestone Timeline</span>
+          <span id="kpi-milestones-value" class="kpi-value">0 / 0 Done</span>
+          <div class="progress-bar-container">
+            <div id="kpi-milestones-progress" class="progress-bar-fill fill-green" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-label">Vendors Secured</span>
+          <span id="kpi-vendors-value" class="kpi-value">0 / 0 Booked</span>
+          <div class="progress-bar-container">
+            <div id="kpi-vendors-progress" class="progress-bar-fill fill-amber" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs-header">
+      <button class="tab-btn active" data-tab="ideas">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        Master Plan & Ideas
+      </button>
+      <button class="tab-btn" data-tab="budget">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Budget Tracker
+      </button>
+      <button class="tab-btn" data-tab="timeline">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Timeline & Run of Show
+      </button>
+      <button class="tab-btn" data-tab="vendors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Vendor Hub
+      </button>
+      <button class="tab-btn" data-tab="guests">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
+        Guest Estimator
+      </button>
+    </nav>
+
+    <!-- Tab Panels Container -->
+    <div id="tab-ideas" class="tab-panel active"></div>
+    <div id="tab-budget" class="tab-panel"></div>
+    <div id="tab-timeline" class="tab-panel"></div>
+    <div id="tab-vendors" class="tab-panel"></div>
+    <div id="tab-guests" class="tab-panel"></div>
+
+  </main>
+
+  <!-- Slide-over AI Co-pilot Drawer -->
+  <aside id="copilot-drawer" class="copilot-drawer">
+    <div class="copilot-header">
+      <div class="copilot-title-group">
+        <div class="brand-icon" style="width: 28px; height: 28px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+        <div>
+          <h3 class="copilot-title">PlanGenius Co-pilot</h3>
+          <p id="copilot-event-name" style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px;"></p>
+        </div>
+      </div>
+      <button class="modal-close" onclick="Copilot.close()" title="Close Co-pilot">&times;</button>
+    </div>
+
+    <!-- Chat Messages Stream -->
+    <div id="copilot-messages" class="copilot-chat-body">
+      <!-- Dynamically rendered -->
+    </div>
+
+    <!-- Suggested Quick Prompts -->
+    <div class="chat-quick-actions">
+      <span class="prompt-pill" onclick="Copilot.sendQuickPrompt('How can I cut 15% from my budget without hurting the experience?')">💡 Cut 15% Budget</span>
+      <span class="prompt-pill" onclick="Copilot.sendQuickPrompt('Draft a negotiation inquiry email to a venue photographer')">✉️ Vendor Script</span>
+      <span class="prompt-pill" onclick="Copilot.sendQuickPrompt('What are common mistakes on day-of event schedules?')">⏱️ Schedule Mistakes</span>
+      <span class="prompt-pill" onclick="Copilot.sendQuickPrompt('Give me a 3-minute toast / speech outline')">🥂 Speech Outline</span>
+      <span class="prompt-pill" onclick="Copilot.sendQuickPrompt('Give me a day-of emergency kit packing checklist')">🧰 Emergency Kit</span>
+    </div>
+
+    <!-- Chat Input Bar -->
+    <div class="copilot-input-bar">
+      <input type="text" id="copilot-input" class="copilot-input" placeholder="Ask Co-pilot about budget, timeline, vendors...">
+      <button class="btn btn-primary btn-sm btn-icon-only" onclick="Copilot.sendMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Event Wizard Modal -->
+  <div id="modal-wizard" class="modal-overlay">
+    <div class="modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          PlanGenius AI Master Plan Creator
+        </h3>
+        <button class="modal-close" onclick="Wizard.close()">&times;</button>
+      </div>
+      <div id="wizard-body" class="modal-body">
+        <!-- Rendered by wizard.js -->
+      </div>
+      <div id="wizard-footer" class="modal-footer">
+        <!-- Rendered by wizard.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Add / Edit Expense Modal -->
+  <div id="modal-expense" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-expense-title" class="modal-title">Add Budget Line Item</h3>
+        <button class="modal-close" onclick="BudgetComponent.closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="expense-form" onsubmit="event.preventDefault(); BudgetComponent.saveExpenseFromModal();">
+          <input type="hidden" id="expense-id">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="expense-category" class="form-control">
+              <option value="Venue & Rentals">Venue & Rentals</option>
+              <option value="Catering & Bar">Catering & Bar</option>
+              <option value="Photography & Video">Photography & Video</option>
+              <option value="Flowers & Decor">Flowers & Decor</option>
+              <option value="Music & Entertainment">Music & Entertainment</option>
+              <option value="Attire & Beauty">Attire & Beauty</option>
+              <option value="Stationery & Favors">Stationery & Favors</option>
+              <option value="Permits & Safety">Permits & Safety</option>
+              <option value="Marketing & Signage">Marketing & Signage</option>
+              <option value="Contingency">Contingency</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expense Description / Item</label>
+            <input type="text" id="expense-name" class="form-control" placeholder="e.g. Vintage Champagne Coupe Glasses Rental" required>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Estimated Budget</label>
+              <input type="number" id="expense-estimated" class="form-control" min="0" step="10" value="500">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Actual Amount Paid</label>
+              <input type="number" id="expense-actual" class="form-control" min="0" step="10" value="0">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Payment Status</label>
+            <select id="expense-status" class="form-control">
+              <option value="pending">⏳ Pending</option>
+              <option value="deposit_paid">💳 Deposit Paid</option>
+              <option value="paid">✅ Paid in Full</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes & Inclusions</label>
+            <input type="text" id="expense-notes" class="form-control" placeholder="e.g. 50% deposit due on April 1st">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="BudgetComponent.closeModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="BudgetComponent.saveExpenseFromModal()">Save Expense</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Add Milestone Modal -->
+  <div id="modal-milestone" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Milestone Task</h3>
+        <button class="modal-close" onclick="TimelineComponent.closeMilestoneModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="milestone-form" onsubmit="event.preventDefault(); TimelineComponent.saveMilestoneFromModal();">
+          <div class="form-group">
+            <label class="form-label">Phase</label>
+            <input type="text" id="milestone-phase" class="form-control" placeholder="e.g. 3 Months Out" value="Upcoming Phase">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Task Description</label>
+            <input type="text" id="milestone-task" class="form-control" placeholder="e.g. Schedule floral mock-up and send invitations" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Due Date</label>
+            <input type="date" id="milestone-date" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="TimelineComponent.closeMilestoneModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="TimelineComponent.saveMilestoneFromModal()">Add Milestone</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Add Day-Of Run of Show Schedule Modal -->
+  <div id="modal-runofshow" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Schedule Block (Day-Of)</h3>
+        <button class="modal-close" onclick="TimelineComponent.closeRunOfShowModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="runofshow-form" onsubmit="event.preventDefault(); TimelineComponent.saveRunOfShowFromModal();">
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Time</label>
+              <input type="text" id="ros-time" class="form-control" placeholder="e.g. 05:30 PM" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Activity</label>
+              <input type="text" id="ros-activity" class="form-control" placeholder="e.g. Ceremony Processional & Vows" required>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Responsible Lead</label>
+              <input type="text" id="ros-responsible" class="form-control" placeholder="e.g. Officiant & Coordinator" value="Lead Coordinator">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Location / Area</label>
+              <input type="text" id="ros-location" class="form-control" placeholder="e.g. Main Terrace Lawn" value="Main Venue">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="TimelineComponent.closeRunOfShowModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="TimelineComponent.saveRunOfShowFromModal()">Add Schedule Block</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Add / Edit Vendor Modal -->
+  <div id="modal-vendor" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-vendor-title" class="modal-title">Add New Vendor</h3>
+        <button class="modal-close" onclick="VendorsComponent.closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="vendor-form" onsubmit="event.preventDefault(); VendorsComponent.saveVendorFromModal();">
+          <input type="hidden" id="vendor-id">
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Vendor / Business Name</label>
+              <input type="text" id="vendor-name" class="form-control" placeholder="e.g. Sunset Glow Photography" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <input type="text" id="vendor-category" class="form-control" placeholder="e.g. Photography" value="Catering">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Contact Email</label>
+              <input type="email" id="vendor-contact" class="form-control" placeholder="hello@vendor.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Contact Phone</label>
+              <input type="text" id="vendor-phone" class="form-control" placeholder="(555) 123-4567">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Booking Status</label>
+              <select id="vendor-status" class="form-control">
+                <option value="to_research">🔍 To Research</option>
+                <option value="contacted">💬 Contacted</option>
+                <option value="quoted">📄 Quoted</option>
+                <option value="booked">🤝 Booked</option>
+                <option value="deposit_paid">💳 Deposit Paid</option>
+                <option value="completed">✅ Completed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quoted Cost</label>
+              <input type="number" id="vendor-quoted" class="form-control" min="0" step="50" value="1500">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contract & Booking Notes</label>
+            <textarea id="vendor-notes" class="form-control" placeholder="e.g. 50% deposit required on contract signing, 8 hours coverage"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="VendorsComponent.closeModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="VendorsComponent.saveVendorFromModal()">Save Vendor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. AI Vendor Inquiry Email Modal -->
+  <div id="modal-vendor-email" class="modal-overlay">
+    <div class="modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          AI Inquiry Email for <span id="email-modal-vendor-name" style="color: #A5B4FC; margin-left: 0.3rem;"></span>
+        </h3>
+        <button class="modal-close" onclick="VendorsComponent.closeEmailModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+          Tailored inquiry email pre-filled with your event dates, guest numbers, aesthetic vibe, and budget targets.
+        </p>
+        <textarea id="email-modal-textarea" class="form-control" rows="12" style="font-family: monospace; font-size: 0.825rem; line-height: 1.45;"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="VendorsComponent.closeEmailModal()">Close</button>
+        <button type="button" class="btn btn-sparkle" onclick="VendorsComponent.copyEmailDraft()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          Copy to Clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Settings Modal -->
+  <div id="modal-settings" class="modal-overlay">
+    <div class="modal-box" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Settings & AI Provider Configuration</h3>
+        <button class="modal-close" onclick="App.closeSettings()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-md); padding: 0.85rem; font-size: 0.825rem; color: #CBD5E1;">
+          💡 <strong>PlanGenius AI supports multiple AI engines:</strong> Ultra-fast Groq API, Google Gemini, or the built-in offline engine that works without any keys.
+        </div>
+
+        <!-- AI Provider Selection -->
+        <div class="form-group">
+          <label class="form-label">Active AI Engine</label>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+            <button type="button" id="provider-btn-groq" class="btn btn-secondary active" onclick="App.selectProviderTab('groq')">
+              ⚡ Groq API
+            </button>
+            <button type="button" id="provider-btn-gemini" class="btn btn-secondary" onclick="App.selectProviderTab('gemini')">
+              ✨ Gemini
+            </button>
+            <button type="button" id="provider-btn-local" class="btn btn-secondary" onclick="App.selectProviderTab('local')">
+              💻 Local Engine
+            </button>
+          </div>
+        </div>
+
+        <!-- Groq Configuration Panel -->
+        <div id="panel-groq-settings">
+          <div class="form-group">
+            <label class="form-label">Groq API Key</label>
+            <input type="password" id="settings-groq-key" class="form-control" placeholder="gsk_...">
+            <small style="color: var(--text-muted); font-size: 0.75rem;">Get your free key at <a href="https://console.groq.com/keys" target="_blank" rel="noopener" style="color: #60A5FA;">console.groq.com</a>. Stored locally in your browser.</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Groq Model</label>
+            <select id="settings-groq-model" class="form-control">
+              <option value="qwen/qwen3.8-27b" selected>qwen/qwen3.8-27b (Recommended - Ultra-Fast, 27B)</option>
+              <option value="openai/gpt-oss-120b">openai/gpt-oss-120b (120B Flagship)</option>
+              <option value="openai/gpt-oss-20b">openai/gpt-oss-20b (20B Fast)</option>
+              <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile</option>
+              <option value="llama-3.1-8b-instant">llama-3.1-8b-instant</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 0.5rem;">
+            <button type="button" id="btn-test-groq-key" class="btn btn-secondary btn-sm" onclick="App.testGroqKey()">
+              ⚡ Test Groq Connection
+            </button>
+          </div>
+        </div>
+
+        <!-- Gemini Configuration Panel -->
+        <div id="panel-gemini-settings" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">Google Gemini API Key</label>
+            <input type="password" id="settings-api-key" class="form-control" placeholder="AIzaSy...">
+            <small style="color: var(--text-muted); font-size: 0.75rem;">Get key from Google AI Studio. Stored locally in your browser.</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Gemini Model</label>
+            <select id="settings-model" class="form-control">
+              <option value="gemini-2.5-flash">Gemini 2.5 Flash (Fast, Recommended)</option>
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+              <option value="gemini-1.5-pro">Gemini 1.5 Pro (Deep Reasoning)</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 0.5rem;">
+            <button type="button" id="btn-test-key" class="btn btn-secondary btn-sm" onclick="App.testKey()">
+              ✨ Test Gemini Connection
+            </button>
+          </div>
+        </div>
+
+        <!-- Local Engine Panel -->
+        <div id="panel-local-settings" style="display: none;">
+          <div style="background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; font-size: 0.85rem; color: var(--text-sub);">
+            <p style="margin-bottom: 0.5rem;"><strong>Built-in Offline Intelligence Active:</strong></p>
+            <ul style="padding-left: 1.2rem; line-height: 1.5; color: var(--text-muted);">
+              <li>No API keys, accounts, or internet calls required.</li>
+              <li>Heuristics calibrated for Weddings, Birthdays, and Community Galas.</li>
+              <li>Instant response time with zero latency.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="App.closeSettings()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="App.saveSettings()">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="./js/icons.js"></script>
+  <script src="./js/sample_data.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/components/wizard.js"></script>
+  <script src="./js/components/budget.js"></script>
+  <script src="./js/components/timeline.js"></script>
+  <script src="./js/components/vendors.js"></script>
+  <script src="./js/components/ideas.js"></script>
+  <script src="./js/components/guests.js"></script>
+  <script src="./js/components/copilot.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

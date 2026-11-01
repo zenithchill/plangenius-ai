@@ -31,15 +31,21 @@ const TimelineComponent = {
                 ${getIcon('clock')} Day-Of Run of Show (${runOfShow.length})
               </button>
             </div>
-            <a href="/api/events/${event.id}/export-ics" class="btn btn-secondary btn-sm" title="Sync with Apple Calendar, Google Calendar, or Outlook">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="TimelineComponent.exportICS()" title="Sync with Apple Calendar, Google Calendar, or Outlook">
               ${getIcon('download')} Sync to Calendar (.ics)
-            </a>
+            </button>
           </div>
         </div>
 
         ${this.viewMode === 'roadmap' ? this.renderRoadmap(milestones, progressPct) : this.renderRunOfShow(runOfShow)}
       </div>
     `;
+  },
+
+  exportICS() {
+    if (App.currentEvent) {
+      API.exportICS(App.currentEvent);
+    }
   },
 
   switchView(mode) {
