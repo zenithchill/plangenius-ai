@@ -1,0 +1,314 @@
+"""
+Sample event data pre-loaded for PlanGenius AI.
+Contains rich, diverse events: Wedding, Milestone Birthday, Kids Birthday, and Community Gala/Festival.
+"""
+
+SAMPLE_EVENTS = [
+    {
+        "id": "evt-wedding-tuscan",
+        "title": "Elena & Marcus's Tuscan Garden Wedding",
+        "eventType": "wedding",
+        "subType": "Rustic Garden Romance",
+        "date": "2027-06-18",
+        "location": "Villa Bellissima, Napa Valley, CA",
+        "guestCount": 140,
+        "totalBudget": 38000,
+        "currency": "$",
+        "theme": "Sun-drenched Tuscan Villa with Olive Branches & Terra Cotta Accents",
+        "priorities": "Exceptional farm-to-table food, candid photojournalism, live acoustic music, memorable guest experience",
+        "dietaryNotes": "Gluten-free pasta option, vegan eggplant caponata, nut-free dessert",
+        "colorPalette": [
+            {"name": "Olive Leaf", "hex": "#556B2F"},
+            {"name": "Warm Terra Cotta", "hex": "#D97443"},
+            {"name": "Champagne Cream", "hex": "#F4EBD9"},
+            {"name": "Dusty Rose", "hex": "#C48B9F"},
+            {"name": "Aged Brass", "hex": "#B5944B"}
+        ],
+        "creativeIdeas": [
+            {
+                "title": "Limoncello Toast & Escort Wall",
+                "category": "Guest Experience",
+                "description": "Welcome guests to the reception terrace with a hand-lettered wooden wall featuring mini chilled limoncello bottles tagged with guests' names and table assignments."
+            },
+            {
+                "title": "Signature Cocktail: 'Amalfi Spritz'",
+                "category": "Food & Beverage",
+                "description": "Prosecco, Italicus Bergamot liqueur, fresh grapefruit juice, splash of soda, garnished with a charred rosemary sprig and dehydrated blood orange wheel."
+            },
+            {
+                "title": "Live Acoustic Trio during Golden Hour",
+                "category": "Entertainment",
+                "description": "Spanish guitar, cello, and soft percussion performing contemporary indie and classic love ballads during cocktail hour as the sun sets over the vineyards."
+            },
+            {
+                "title": "Olive Oil Tasting & Custom Favor Bar",
+                "category": "Favors",
+                "description": "Bottles of locally pressed organic extra virgin olive oil paired with rosemary and chili flakes in custom monogrammed wax-sealed bottles."
+            },
+            {
+                "title": "Vintage Polaroid Memory Archive",
+                "category": "Guestbook",
+                "description": "Rustic wooden desk equipped with 3 retro instant cameras, metallic gel pens, and handmade linen-bound scrapbook for guests to paste their snapshots."
+            }
+        ],
+        "budgetItems": [
+            {"id": "b1", "category": "Venue & Rentals", "name": "Vineyard Lawn & Terrace Rental", "estimated": 9500, "actual": 9200, "status": "deposit_paid", "notes": "Includes tables, cross-back chairs, and cleanup"},
+            {"id": "b2", "category": "Catering & Bar", "name": "3-Course Plated Tuscan Dinner (140 guests)", "estimated": 11500, "actual": 11800, "status": "deposit_paid", "notes": "Antipasti stations, pasta course, choice of braised short rib or wild branzino"},
+            {"id": "b3", "category": "Catering & Bar", "name": "Open Bar (Local Napa Wines, Craft Beer & Spirits)", "estimated": 3200, "actual": 3000, "status": "deposit_paid", "notes": "5 hours service with 2 bartenders"},
+            {"id": "b4", "category": "Photography & Video", "name": "Full Day Photojournalism & Highlight Film", "estimated": 4500, "actual": 4500, "status": "booked", "notes": "10 hours coverage, 2 shooters, engagement session included"},
+            {"id": "b5", "category": "Flowers & Decor", "name": "Ceremony Arch, Bouquets & Olive Garland Tablescapes", "estimated": 3800, "actual": 3600, "status": "deposit_paid", "notes": "Locally sourced garden roses, eucalyptus, and olive branches"},
+            {"id": "b6", "category": "Music & Entertainment", "name": "Acoustic Cocktail Trio & Reception DJ", "estimated": 2200, "actual": 2200, "status": "booked", "notes": "Wireless lapel mic for officiant + full dance lighting rig"},
+            {"id": "b7", "category": "Attire & Beauty", "name": "Bridal Gown Alterations, Suit Rental & HMUA", "estimated": 1800, "actual": 1650, "status": "paid", "notes": "Hair and makeup trial completed"},
+            {"id": "b8", "category": "Stationery & Favors", "name": "Letterpress Invitations, Menus & Olive Oil Favors", "estimated": 900, "actual": 850, "status": "paid", "notes": "Wax seals stamped with family crest"},
+            {"id": "b9", "category": "Contingency Fund", "name": "Weather Contingency & Incidentals", "estimated": 600, "actual": 200, "status": "pending", "notes": "Reserved for umbrella rentals if drizzle"}
+        ],
+        "timelineMilestones": [
+            {"id": "m1", "phase": "9-12 Months Out", "task": "Lock in venue date and secure booking deposit", "completed": True, "dueDate": "2026-06-18"},
+            {"id": "m2", "phase": "6-9 Months Out", "task": "Book primary photographer, caterer, and entertainment", "completed": True, "dueDate": "2026-09-18"},
+            {"id": "m3", "phase": "4-6 Months Out", "task": "Finalize floral design concepts and send Save-the-Dates", "completed": True, "dueDate": "2026-12-18"},
+            {"id": "m4", "phase": "2-3 Months Out", "task": "Menu tasting session and mail formal invitations", "completed": False, "dueDate": "2027-03-18"},
+            {"id": "m5", "phase": "1 Month Out", "task": "Collect final RSVP counts, build seating chart, confirm day-of schedule", "completed": False, "dueDate": "2027-05-18"},
+            {"id": "m6", "phase": "1 Week Out", "task": "Final vendor headcount check-ins, pack emergency kit, rehearsal dinner", "completed": False, "dueDate": "2027-06-11"},
+            {"id": "m7", "phase": "Wedding Day", "task": "Morning hair/makeup, ceremony, golden hour portraits, celebration!", "completed": False, "dueDate": "2027-06-18"}
+        ],
+        "runOfShow": [
+            {"id": "r1", "time": "11:00 AM", "activity": "Bridal Party & Groom Suite Hair & Makeup prep starts", "responsible": "Lead Stylist & Maid of Honor", "location": "Bridal Villa Suites"},
+            {"id": "r2", "time": "02:00 PM", "activity": "Photographer arrives: Detail shots (rings, dress, stationery)", "responsible": "Lead Photographer", "location": "Courtyard & Suite"},
+            {"id": "r3", "time": "03:15 PM", "activity": "First Look & Couple Portraits in Olive Grove", "responsible": "Coordinator & Photographer", "location": "North Olive Grove"},
+            {"id": "r4", "time": "04:30 PM", "activity": "Guests arrive; Pre-ceremony citrus sparkling water station opens", "responsible": "Catering Lead", "location": "Front Pergola"},
+            {"id": "r5", "time": "05:00 PM", "activity": "Ceremony Processional begins", "responsible": "Wedding Coordinator & Officiant", "location": "Vineyard Lawn"},
+            {"id": "r6", "time": "05:35 PM", "activity": "Cocktail Hour: Limoncello wall, acoustic trio, passed crostini", "responsible": "Catering & Trio", "location": "Stone Terrace"},
+            {"id": "r7", "time": "06:45 PM", "activity": "Guests invited into Dining Pavilion; Grand Entrance of Couple", "responsible": "DJ & Coordinator", "location": "Main Pavilion"},
+            {"id": "r8", "time": "07:00 PM", "activity": "Dinner service begins (Antipasti, pasta, entrees)", "responsible": "Executive Chef", "location": "Main Pavilion"},
+            {"id": "r9", "time": "07:50 PM", "activity": "Toasts by Maid of Honor, Best Man, and Parents", "responsible": "DJ / MC", "location": "Main Pavilion"},
+            {"id": "r10", "time": "08:20 PM", "activity": "First Dance & Parent Dances", "responsible": "DJ", "location": "Dance Lawn"},
+            {"id": "r11", "time": "08:35 PM", "activity": "Dance floor opens! Late-night pizza oven fires up", "responsible": "DJ & Catering", "location": "Dance Lawn"},
+            {"id": "r12", "time": "11:00 PM", "activity": "Sparkler Send-off & Shuttles depart for hotels", "responsible": "Coordinator & Transportation", "location": "Driveway Gates"}
+        ],
+        "vendors": [
+            {"id": "v1", "category": "Venue", "name": "Villa Bellissima Estate", "contact": "events@bellissimawinery.com", "phone": "(707) 555-8912", "status": "booked", "quoted": 9200, "notes": "Contract signed, 50% deposit paid. Sound curfew strictly 11:00 PM."},
+            {"id": "v2", "category": "Catering", "name": "Napa Harvest Artisans", "contact": "chef@napaharvest.com", "phone": "(707) 555-3490", "status": "booked", "quoted": 14800, "notes": "Menu confirmed. Includes bar package and staffing."},
+            {"id": "v3", "category": "Photography", "name": "Golden Hour Storytellers (Mia & Daniel)", "contact": "hello@goldenhourfilms.com", "phone": "(415) 555-9081", "status": "booked", "quoted": 4500, "notes": "Shot list and timeline submitted."},
+            {"id": "v4", "category": "Floral & Decor", "name": "Petals & Olive Design Studio", "contact": "claire@petalsolive.com", "phone": "(707) 555-2241", "status": "quoted", "quoted": 3600, "notes": "Awaiting final mock-up of ceremony pergola arch."},
+            {"id": "v5", "category": "Music & Sound", "name": "Pacific Coast Sounds & DJ Marco", "contact": "marco@pacificsounds.com", "phone": "(415) 555-7711", "status": "booked", "quoted": 2200, "notes": "Must-play and do-not-play lists shared."}
+        ]
+    },
+    {
+        "id": "evt-birthday-space",
+        "title": "Leo's Space Explorer 7th Birthday Odyssey",
+        "eventType": "birthday",
+        "subType": "Kids Themed Adventure",
+        "date": "2027-04-10",
+        "location": "Starlight Discovery Science Center & Backyard Orbit",
+        "guestCount": 26,
+        "totalBudget": 1250,
+        "currency": "$",
+        "theme": "Deep Space Astronaut Cadet Academy with Glow-in-the-Dark Constellations",
+        "priorities": "High-energy games, hands-on science experiments, immersive planetary atmosphere, astronaut graduation",
+        "dietaryNotes": "Peanut allergy friendly, dairy-free cupcake alternative",
+        "colorPalette": [
+            {"name": "Midnight Space Navy", "hex": "#0B132B"},
+            {"name": "Galactic Indigo", "hex": "#1C2541"},
+            {"name": "Rocket Flame Orange", "hex": "#F77F00"},
+            {"name": "Astronaut White", "hex": "#F0F4F8"},
+            {"name": "Cosmic Glow Yellow", "hex": "#FCBF49"}
+        ],
+        "creativeIdeas": [
+            {
+                "title": "Astronaut Cadet Training Academy",
+                "category": "Interactive Game",
+                "description": "Each child receives a personalized NASA-style badge upon arrival. They complete 4 missions: Moon Crater Relay, Asteroid Dodge, Weightless Agility Course, and Rocket Launch."
+            },
+            {
+                "title": "DIY 'Meteor Slime' Science Station",
+                "category": "Activity & Take-Home",
+                "description": "Kids mix glitter, glow pigment, and starry confetti into black galaxy slime packed in take-home specimen jars."
+            },
+            {
+                "title": "Solar System Cupcake Tower & Galaxy Cake",
+                "category": "Dessert",
+                "description": "Central dark mirror-glaze cake adorned with edible sugar planets, surrounded by constellation cupcakes."
+            },
+            {
+                "title": "Mission Control Juice Bar",
+                "category": "Food & Beverage",
+                "description": "'Rocket Fuel Punch' (blue raspberry with dry ice mist effect) and fruit skewers shaped like mini rockets with strawberry nose cones."
+            }
+        ],
+        "budgetItems": [
+            {"id": "b1", "category": "Venue & Entertainment", "name": "Mad Science Rocket Workshop Presenter (1.5 hrs)", "estimated": 350, "actual": 350, "status": "booked", "notes": "Includes dry ice comet demonstration and air-powered stomp rockets"},
+            {"id": "b2", "category": "Food & Cake", "name": "Galaxy Mirror Glaze Cake & Custom Cupcakes", "estimated": 180, "actual": 175, "status": "booked", "notes": "10-inch chocolate cake + 24 constellation cupcakes"},
+            {"id": "b3", "category": "Food & Cake", "name": "Astronaut Snack Bar (Pizza rolls, fruit skewers, chips)", "estimated": 220, "actual": 200, "status": "pending", "notes": "Pre-packaged astronaut ice cream freeze-dried packs included"},
+            {"id": "b4", "category": "Decor & Lighting", "name": "Balloon Rocket Arch, Planet Lanterns & Blacklights", "estimated": 190, "actual": 160, "status": "paid", "notes": "Glow stars for ceiling and blacklight reactive streamers"},
+            {"id": "b5", "category": "Party Favors", "name": "Cadet Helmets, Flight Badges & Slime Jars", "estimated": 170, "actual": 180, "status": "paid", "notes": "26 astronaut drawstring backpacks"},
+            {"id": "b6", "category": "Stationery & Misc", "name": "Space Shuttle Ticket Invitations & Plates", "estimated": 80, "actual": 65, "status": "paid", "notes": "Boarding pass invitations mailed out"},
+            {"id": "b7", "category": "Contingency", "name": "Backup Indoor Party Games & Extra Batteries", "estimated": 60, "actual": 0, "status": "pending", "notes": "Contingency fund"}
+        ],
+        "timelineMilestones": [
+            {"id": "m1", "phase": "5 Weeks Out", "task": "Lock in science entertainer and send boarding pass invitations", "completed": True, "dueDate": "2027-03-05"},
+            {"id": "m2", "phase": "3 Weeks Out", "task": "Order astronaut backpacks, badges, and balloon arch kit", "completed": True, "dueDate": "2027-03-19"},
+            {"id": "m3", "phase": "1 Week Out", "task": "Order custom galaxy cake and finalize RSVP count", "completed": False, "dueDate": "2027-04-03"},
+            {"id": "m4", "phase": "2 Days Before", "task": "Assemble favor packs and prep dry ingredients for slime station", "completed": False, "dueDate": "2027-04-08"},
+            {"id": "m5", "phase": "Party Day Morning", "task": "Inflate balloon rocket arch, setup blacklight lounge, pick up cake", "completed": False, "dueDate": "2027-04-10"}
+        ],
+        "runOfShow": [
+            {"id": "r1", "time": "01:30 PM", "activity": "Cadet Check-in: Badging, flight suit vest distribution, photo op", "responsible": "Parents", "location": "Launchpad Entryway"},
+            {"id": "r2", "time": "02:00 PM", "activity": "Mission Briefing & Science Workshop (Rocket science show)", "responsible": "Mad Science Presenter", "location": "Main Hall"},
+            {"id": "r3", "time": "02:45 PM", "activity": "Outdoor Stomp Rocket Challenge & Crater Obstacle Course", "responsible": "Co-hosts", "location": "Backyard Orbit"},
+            {"id": "r4", "time": "03:15 PM", "activity": "Astronaut Fuel Station: Pizza slices & Rocket Fuel Punch", "responsible": "Food Station Leads", "location": "Dining Zone"},
+            {"id": "r5", "time": "03:45 PM", "activity": "Happy Birthday Chorus & Galaxy Cake Cutting", "responsible": "All", "location": "Dining Zone"},
+            {"id": "r6", "time": "04:15 PM", "activity": "Cadet Graduation Ceremony: Diplomas & Astronaut Slime Favors", "responsible": "Leo & Parents", "location": "Photo Backdrop"}
+        ],
+        "vendors": [
+            {"id": "v1", "category": "Entertainment", "name": "Mad Science Bay Area", "contact": "info@madsciencebay.com", "phone": "(408) 555-7389", "status": "booked", "quoted": 350, "notes": "Arriving 30 mins prior for staging"},
+            {"id": "v2", "category": "Bakery", "name": "Sugar Galaxy Custom Bakery", "contact": "orders@sugargalaxy.com", "phone": "(408) 555-1120", "status": "booked", "quoted": 175, "notes": "Nut-free kitchen certification provided"}
+        ]
+    },
+    {
+        "id": "evt-community-gala",
+        "title": "Oakwood Annual Charity Gala & Block Festival",
+        "eventType": "community",
+        "subType": "Fundraising Gala & Public Festival",
+        "date": "2027-09-25",
+        "location": "Oakwood Memorial Town Park & Heritage Pavilion",
+        "guestCount": 380,
+        "totalBudget": 12500,
+        "currency": "$",
+        "theme": "Rooted Together: Celebrating Local Arts, Green Spaces & Community Resilience",
+        "priorities": "Raise $50k for community youth center, family-friendly inclusive programming, zero-waste recycling, local business involvement",
+        "dietaryNotes": "Halal, Kosher, and vegan food trucks booked. Water refill stations placed across park.",
+        "colorPalette": [
+            {"name": "Forest Canopy Green", "hex": "#2D6A4F"},
+            {"name": "Golden Honey", "hex": "#E9C46A"},
+            {"name": "River Blue", "hex": "#2A9D8F"},
+            {"name": "Earthy Sand", "hex": "#F4A261"},
+            {"name": "Deep Charcoal", "hex": "#264653"}
+        ],
+        "creativeIdeas": [
+            {
+                "title": "Community Mosaic Art Mural Installation",
+                "category": "Interactive Art",
+                "description": "Festival attendees paste painted ceramic tiles onto a permanent 12-foot mural honoring local history and youth achievements, unveiled at sunset."
+            },
+            {
+                "title": "Local Artisan & Culinary Showcase",
+                "category": "Vendor Experience",
+                "description": "Curated village of 16 local small businesses, micro-bakers, and makers with a passport stamp game (visit 5 booths for a raffle ticket)."
+            },
+            {
+                "title": "Acoustic Stage & High School Jazz Band Showcase",
+                "category": "Music & Culture",
+                "description": "Continuous live sets highlighting local youth orchestra, neighborhood folk musicians, and poetry slam winners."
+            },
+            {
+                "title": "Silent Auction with Digital Mobile Bidding",
+                "category": "Fundraising",
+                "description": "Display items donated by local sponsors with QR code placards linking to a zero-fee bidding platform with live bid leaderboards on stage screens."
+            }
+        ],
+        "budgetItems": [
+            {"id": "b1", "category": "Permits & Safety", "name": "City Park Permit, Sound Variance & Fire Marshall Inspection", "estimated": 1200, "actual": 1150, "status": "paid", "notes": "City park approval confirmed for 380 cap"},
+            {"id": "b2", "category": "Infrastructure & AV", "name": "Covered Stage, Generator, Sound Rig & Lighting", "estimated": 3400, "actual": 3200, "status": "deposit_paid", "notes": "Includes audio engineer for 8 hours"},
+            {"id": "b3", "category": "Infrastructure & AV", "name": "Tents, Folding Tables, Chairs & Waste Sorting Bins", "estimated": 2500, "actual": 2600, "status": "deposit_paid", "notes": "Includes 4 standard and 2 ADA accessible portable restrooms"},
+            {"id": "b4", "category": "Marketing & Signage", "name": "Yard Signs, Street Banners & Digital Ad Promotion", "estimated": 1400, "actual": 1300, "status": "paid", "notes": "Banners installed across main commercial boulevard"},
+            {"id": "b5", "category": "Hospitality & Food", "name": "Volunteer Hospitality Tent & Performer Meal Vouchers", "estimated": 1100, "actual": 950, "status": "pending", "notes": "Food trucks provide public dining on-site directly"},
+            {"id": "b6", "category": "Kids Zone & Activities", "name": "Bouncy Obstacle Course, Face Painters & Mural Supplies", "estimated": 1600, "actual": 1500, "status": "booked", "notes": "Inspected and certified inflatable operator"},
+            {"id": "b7", "category": "Insurance & Security", "name": "Commercial General Liability Event Rider & Off-Duty Officers", "estimated": 1300, "actual": 1250, "status": "paid", "notes": "Mandatory town council requirement"}
+        ],
+        "timelineMilestones": [
+            {"id": "m1", "phase": "16 Weeks Out", "task": "Submit city park permit, sound variance, and safety plan", "completed": True, "dueDate": "2027-06-05"},
+            {"id": "m2", "phase": "12 Weeks Out", "task": "Recruit sponsor partnerships and secure headline stage equipment", "completed": True, "dueDate": "2027-07-03"},
+            {"id": "m3", "phase": "8 Weeks Out", "task": "Approve food truck applications and launch volunteer signups", "completed": True, "dueDate": "2027-07-31"},
+            {"id": "m4", "phase": "4 Weeks Out", "task": "Print signage, launch social media ad push, finalize performer line-up", "completed": False, "dueDate": "2027-08-28"},
+            {"id": "m5", "phase": "1 Week Out", "task": "Conduct volunteer orientation walk-through & confirm load-in schedule", "completed": False, "dueDate": "2027-09-18"},
+            {"id": "m6", "phase": "Event Day", "task": "Morning vendor load-in, festival hours 11am-6pm, evening tear-down", "completed": False, "dueDate": "2027-09-25"}
+        ],
+        "runOfShow": [
+            {"id": "r1", "time": "07:30 AM", "activity": "Park Gates open for Stage, Tent & Sanitation crews", "responsible": "Operations Lead", "location": "Park Service Gate"},
+            {"id": "r2", "time": "09:00 AM", "activity": "Food Trucks & Artisan Market vendors load in and park", "responsible": "Vendor Coordinator", "location": "East Meadow"},
+            {"id": "r3", "time": "10:15 AM", "activity": "All-Hands Volunteer Safety & Assignment Briefing", "responsible": "Volunteer Director", "location": "Pavilion Hub"},
+            {"id": "r4", "time": "11:00 AM", "activity": "Festival Officially Opens to Public; Kids Zone begins", "responsible": "MC / Town Mayor", "location": "Main Stage"},
+            {"id": "r5", "time": "11:30 AM", "activity": "Oakwood High Youth Jazz Ensemble Performance", "responsible": "Stage Manager", "location": "Main Stage"},
+            {"id": "r6", "time": "01:30 PM", "activity": "Mayor & Community Leaders Keynote Address & Honorees", "responsible": "Gala Committee Chair", "location": "Main Stage"},
+            {"id": "r7", "time": "02:30 PM", "activity": "Acoustic Showcase & Community Mural Live Tile Placement", "responsible": "Art Coordinator", "location": "Pavilion Lawn"},
+            {"id": "r8", "time": "04:30 PM", "activity": "Silent Auction Winners Announcement & Raffle Draw", "responsible": "Fundraising Lead", "location": "Main Stage"},
+            {"id": "r9", "time": "05:45 PM", "activity": "Closing Remarks & Volunteer Appreciation Toast", "responsible": "Executive Director", "location": "Main Stage"},
+            {"id": "r10", "time": "06:00 PM", "activity": "Event concludes; Vendor load-out and zero-waste cleanup sweep", "responsible": "Clean Green Team", "location": "Entire Park"}
+        ],
+        "vendors": [
+            {"id": "v1", "category": "Stage & Sound", "name": "Apex Pro Sound & Staging", "contact": "sound@apexav.com", "phone": "(510) 555-8842", "status": "booked", "quoted": 3200, "notes": "Generators included, 2 audio technicians on-site"},
+            {"id": "v2", "category": "Rentals & Sanitation", "name": "Bay Area Event Rentals & Sanitation", "contact": "rentals@bayareaevents.com", "phone": "(510) 555-2090", "status": "booked", "quoted": 2600, "notes": "Delivery scheduled for 7:30 AM sharp"},
+            {"id": "v3", "category": "Inflatables", "name": "FunZone Kids Attractions", "contact": "party@funzone.org", "phone": "(510) 555-4421", "status": "booked", "quoted": 1500, "notes": "State certificate of safety on file"},
+            {"id": "v4", "category": "Security & First Aid", "name": "Guardian Community Safety Services", "contact": "guard@guardiansafety.com", "phone": "(510) 555-6677", "status": "booked", "quoted": 1250, "notes": "2 EMTs and 3 licensed security officers"}
+        ]
+    },
+    {
+        "id": "evt-birthday-rooftop",
+        "title": "Maya's 30th Sunset Rooftop Soirée",
+        "eventType": "birthday",
+        "subType": "Milestone Luxury Celebration",
+        "date": "2027-08-14",
+        "location": "The Skyline Loft & Terrace, Chicago, IL",
+        "guestCount": 42,
+        "totalBudget": 4500,
+        "currency": "$",
+        "theme": "Sunset Chic & Golden Hour Lounge with Modern House Beats",
+        "priorities": "Stunning golden hour city views, elevated grazing table, craft mixologist, unforgettable vibes",
+        "dietaryNotes": "Vegetarian heavy, dairy-free charcuterie alternatives, mocktail options",
+        "colorPalette": [
+            {"name": "Sunset Coral", "hex": "#E76F51"},
+            {"name": "Warm Gold", "hex": "#F4A261"},
+            {"name": "Deep Plum", "hex": "#581845"},
+            {"name": "Champagne", "hex": "#F7EDE2"},
+            {"name": "Midnight Charcoal", "hex": "#2B2D42"}
+        ],
+        "creativeIdeas": [
+            {
+                "title": "Custom 10-Foot Artisanal Grazing Table",
+                "category": "Food Experience",
+                "description": "Lush grazing display overflowing with imported cheeses, honeycomb, fresh figs, artisan crackers, prosciutto ribbons, and edible flowers."
+            },
+            {
+                "title": "Interactive Tarot & Astrology Reader",
+                "category": "Entertainment",
+                "description": "Intimate cozy lounge nook where a professional astrologer gives guests rapid 5-minute solar return & birth chart readings for their 30s."
+            },
+            {
+                "title": "Champagne Tower Pour at Sunset",
+                "category": "Highlight Moment",
+                "description": "5-tier vintage coupe champagne tower poured by Maya right at 7:45 PM as the sun dips below the Chicago skyline with sparkler accents."
+            },
+            {
+                "title": "Custom Scented Candle Favors",
+                "category": "Favors",
+                "description": "Hand-poured soy candles scented with amber, sandalwood, and fig, labeled 'Maya's Golden Era — Chapter 30'."
+            }
+        ],
+        "budgetItems": [
+            {"id": "b1", "category": "Venue", "name": "Skyline Loft Rooftop Terrace Rental (5 hrs)", "estimated": 1800, "actual": 1750, "status": "deposit_paid", "notes": "Private terrace with skyline view, lounge seating included"},
+            {"id": "b2", "category": "Food & Bar", "name": "Luxe Grazing Table & Passed Sliders", "estimated": 1100, "actual": 1150, "status": "booked", "notes": "Catered grazing table for 45 people"},
+            {"id": "b3", "category": "Food & Bar", "name": "Craft Mixologist & Signature Cocktails Bar", "estimated": 800, "actual": 750, "status": "booked", "notes": "Custom menu: Mezcal Paloma & Smoked Fig Old Fashioned"},
+            {"id": "b4", "category": "Entertainment", "name": "Lounge DJ & Tarot Reader (2 hrs)", "estimated": 450, "actual": 450, "status": "booked", "notes": "Deep house and funk vibes"},
+            {"id": "b5", "category": "Decor & Lighting", "name": "Neon 'Chapter 30' Sign, Florals & Candle Wall", "estimated": 250, "actual": 220, "status": "paid", "notes": "Rented neon sign and warm hurricane lamps"},
+            {"id": "b6", "category": "Contingency", "name": "Tips, Parking & Incidentals", "estimated": 100, "actual": 50, "status": "pending", "notes": "Cash tips for bartenders"}
+        ],
+        "timelineMilestones": [
+            {"id": "m1", "phase": "6 Weeks Out", "task": "Book rooftop venue and book mixologist", "completed": True, "dueDate": "2027-07-03"},
+            {"id": "m2", "phase": "4 Weeks Out", "task": "Send digital animated invitations with dress code ('Sunset Chic')", "completed": True, "dueDate": "2027-07-17"},
+            {"id": "m3", "phase": "2 Weeks Out", "task": "Confirm grazing table menu & finalize DJ playlist direction", "completed": False, "dueDate": "2027-07-31"},
+            {"id": "m4", "phase": "Day Before", "task": "Pick up custom coupe glasses and prep candle favors", "completed": False, "dueDate": "2027-08-13"},
+            {"id": "m5", "phase": "Party Day", "task": "Setup grazing table, sound check, sunset toast, party into night!", "completed": False, "dueDate": "2027-08-14"}
+        ],
+        "runOfShow": [
+            {"id": "r1", "time": "06:00 PM", "activity": "Doors open; Guests arrive for golden hour drinks & grazing table", "responsible": "Host & Mixologist", "location": "Rooftop Terrace"},
+            {"id": "r2", "time": "06:45 PM", "activity": "DJ transitions into upbeat tropical lounge; Tarot reader starts", "responsible": "DJ & Astrologer", "location": "Lounge Nook"},
+            {"id": "r3", "time": "07:45 PM", "activity": "Sunset Champagne Tower Pour & Birthday Toast", "responsible": "Maya & Best Friends", "location": "Skyline Edge"},
+            {"id": "r4", "time": "08:30 PM", "activity": "Late night warm sliders served & dance floor opens", "responsible": "Catering Lead", "location": "Indoor Loft"},
+            {"id": "r5", "time": "11:00 PM", "activity": "Last call, favor distribution, rooftop closes", "responsible": "Host", "location": "Exit Lounge"}
+        ],
+        "vendors": [
+            {"id": "v1", "category": "Venue", "name": "The Skyline Loft Chicago", "contact": "events@skylineloftchi.com", "phone": "(312) 555-9191", "status": "booked", "quoted": 1750, "notes": "Elevator access confirmed, security guard provided"},
+            {"id": "v2", "category": "Catering", "name": "Bespoke Grazing & Boards", "contact": "boards@bespokegrazing.com", "phone": "(312) 555-8371", "status": "booked", "quoted": 1150, "notes": "All platters and display risers included"}
+        ]
+    }
+]
