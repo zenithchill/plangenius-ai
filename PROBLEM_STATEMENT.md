@@ -5,7 +5,9 @@
 **Author**: Sudhanshu Sharma (`sudhanshusharma30544@gmail.com`)  
 **Live Web Application**: [https://zenithchill.github.io/plangenius-ai/](https://zenithchill.github.io/plangenius-ai/)  
 **GitHub Repository**: [https://github.com/zenithchill/plangenius-ai](https://github.com/zenithchill/plangenius-ai)  
-**Submission Video**: [`plangenius_ai_submission_demo.mp4`](./plangenius_ai_submission_demo.mp4) (81s HD product walkthrough)
+**Submission Video**: [`plangenius_ai_submission_demo.mp4`](./plangenius_ai_submission_demo.mp4) (81s HD product walkthrough)  
+**Repository Size**: `< 4 MB` (fully compliant with the `< 10 MB` limit)  
+**Active Branch**: Single branch (`main`)  
 
 ---
 
