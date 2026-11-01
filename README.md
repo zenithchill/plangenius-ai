@@ -5,11 +5,27 @@
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Groq](https://img.shields.io/badge/Groq_Cloud-Ultra_Fast_Inference-F97316?style=for-the-badge&logo=fastapi)](https://console.groq.com)
 
-🔗 **Live Interactive App**: [https://zenithchill.github.io/plangenius-ai/](https://zenithchill.github.io/plangenius-ai/)
+🔗 **Live Interactive App**: [https://zenithchill.github.io/plangenius-ai/](https://zenithchill.github.io/plangenius-ai/)  
+🎥 **Walkthrough Video**: [`plangenius_ai_submission_demo.mp4`](./plangenius_ai_submission_demo.mp4)
 
 PlanGenius AI is a comprehensive planning assistant engineered to help users organize memorable **Weddings**, **Birthdays**, and **Community Events** with intelligent budgets, phased milestone timelines, day-of run-of-shows, vendor checklists with AI negotiation/inquiry email drafters, and personalized creative concepts.
 
 ---
+
+## 📸 Product Previews & Demo
+
+<p align="center">
+  <img src="./screenshots/01_dashboard.png" width="85%" alt="PlanGenius AI Dashboard Preview" />
+</p>
+
+| AI Co-pilot Drawer | New Event Synthesizer |
+|:---:|:---:|
+| <img src="./screenshots/02_copilot.png" width="100%" alt="Live AI Co-pilot" /> | <img src="./screenshots/03_new_event.png" width="100%" alt="Master Plan Synthesizer" /> |
+
+> 🎬 **Watch the full high-definition video walkthrough**: [`plangenius_ai_submission_demo.mp4`](./plangenius_ai_submission_demo.mp4) (81s HD product tour covering live Groq Co-pilot, smart wizard, budget tracker, day-of timeline, and vendor AI negotiation).
+
+---
+
 
 ## ✨ Key Capabilities
 
