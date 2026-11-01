@@ -1,5 +1,383 @@
 [
   {
+    "budgetItems": [
+      {
+        "actual": 5000,
+        "category": "Venue & Rentals",
+        "estimated": 9282,
+        "id": "b_d1003e",
+        "name": "Ceremony & Reception Venue Rental (125 guests)",
+        "notes": "Includes access for setup, sound curfew and venue coordinator",
+        "status": "deposit_paid"
+      },
+      {
+        "actual": 0,
+        "category": "Venue & Rentals",
+        "estimated": 1638,
+        "id": "b_6783f6",
+        "name": "Tables, Chairs, Linens & Place Settings Rental",
+        "notes": "Upgraded cross-back wooden chairs and linen napkins",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Catering & Bar",
+        "estimated": 9677,
+        "id": "b_09f571",
+        "name": "Plated or Family-Style Dinner (125 guests)",
+        "notes": "Includes appetizer stations, main courses (Vegetarian and dairy-free options), and dessert",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Catering & Bar",
+        "estimated": 3763,
+        "id": "b_cfc38f",
+        "name": "Beverage Package & Signature Cocktails",
+        "notes": "4.5 hours service with professional mixologists",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Photography & Video",
+        "estimated": 4116,
+        "id": "b_566d16",
+        "name": "Lead Photographer & Assistant (8-10 Hours)",
+        "notes": "High-res gallery, timeline consultation, print release",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Photography & Video",
+        "estimated": 1764,
+        "id": "b_f18a0d",
+        "name": "Cinematic 4K Highlight Reel",
+        "notes": "Includes drone aerials (weather permitting) and full speeches audio",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Flowers & Decor",
+        "estimated": 2310,
+        "id": "b_5d526d",
+        "name": "Ceremony Arch, Bouquets & Boutonnieres",
+        "notes": "Curated palette with seasonal florals",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Flowers & Decor",
+        "estimated": 1890,
+        "id": "b_a91865",
+        "name": "Guest Tables Centerpieces & Mood Lighting",
+        "notes": "Warm candlelight hurricanes and lush runners",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Music & Entertainment",
+        "estimated": 2940,
+        "id": "b_9e5d09",
+        "name": "Ceremony Sound, Cocktail Hour & Reception DJ/MC",
+        "notes": "Wireless lapel mic for officiant and dance lighting package",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Attire & Beauty",
+        "estimated": 1050,
+        "id": "b_2515d0",
+        "name": "Bridal/Partner Hair & Makeup Trial + Day-of",
+        "notes": "On-site bridal suite glam team",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Attire & Beauty",
+        "estimated": 1050,
+        "id": "b_8df55d",
+        "name": "Attire Alterations & Accessories",
+        "notes": "Veils, cuff links, pressing, and emergency bustle kit",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Stationery & Favors",
+        "estimated": 840,
+        "id": "b_5b2ebf",
+        "name": "Invitations, Day-Of Signage & Guest Favors",
+        "notes": "Custom seating chart display and personalized keepsake favors",
+        "status": "pending"
+      },
+      {
+        "actual": 0,
+        "category": "Contingency",
+        "estimated": 1680,
+        "id": "b_9b20fd",
+        "name": "Contingency & Incidentals Reserve",
+        "notes": "Reserve for vendor gratuities, weather alternatives, or last-minute additions",
+        "status": "pending"
+      }
+    ],
+    "colorPalette": [
+      {
+        "hex": "#8A9A86",
+        "name": "Sage Whisper"
+      },
+      {
+        "hex": "#D8A47F",
+        "name": "Dusty Rose Quartz"
+      },
+      {
+        "hex": "#F9F6F0",
+        "name": "Warm Ivory Silk"
+      },
+      {
+        "hex": "#A27035",
+        "name": "Burnished Bronze"
+      },
+      {
+        "hex": "#2C402E",
+        "name": "Deep Forest Spruce"
+      }
+    ],
+    "creativeIdeas": [
+      {
+        "category": "Guest Experience",
+        "description": "Place a vintage rotary telephone on an antique console table where guests pick up the receiver, hear a recorded welcome from the couple, and leave heartfelt voice messages and blessings after the tone.",
+        "title": "Interactive Audio Guestbook Telephone"
+      },
+      {
+        "category": "Food & Beverage",
+        "description": "Serve two custom creations: (1) A refreshing botanical gin spritz with elderflower, cucumber, and prosecco; (2) An artisanal smoked bourbon smash with blackberry puree and fresh thyme sprigs.",
+        "title": "Signature Couple Cocktails: 'The His & Hers Duo'"
+      },
+      {
+        "category": "Catering Highlight",
+        "description": "Surprise late-night dancers at 9:45 PM with miniature gourmet smashburger sliders, truffle shoestring french fries in paper cones, and warm churros with spiced chocolate dipping sauce.",
+        "title": "Late-Night Comfort Bites Surprise"
+      },
+      {
+        "category": "Eco-Friendly Decor",
+        "description": "Calligraphed escort tags pressed with wildflower seeds hung from a wooden trellis with mini brass clips. Guests plant the cards at home to bloom memory gardens.",
+        "title": "Living Seed-Paper Escort Card Display"
+      },
+      {
+        "category": "Music & Atmosphere",
+        "description": "As the sun dips toward the horizon, have an acoustic guitarist gently transition the ambiance with mellow, stripped-down renditions of 90s/00s love classics while guests enjoy dessert.",
+        "title": "Golden Hour Acoustic Sunset Intermezzo"
+      }
+    ],
+    "currency": "$",
+    "date": "2027-08-21",
+    "dietaryNotes": "Vegetarian and dairy-free options",
+    "eventType": "wedding",
+    "guestCount": 125,
+    "id": "evt-718b916d",
+    "location": "Aspen Pine Crest Lodge, CO",
+    "priorities": "Outdoor sunset ceremony, farm-to-table feast, live mountain bluegrass band",
+    "runOfShow": [
+      {
+        "activity": "Hair & Makeup styling starts in Bridal Suite",
+        "id": "r_26f455",
+        "location": "Bridal Suite",
+        "responsible": "Lead Stylist & Wedding Party",
+        "time": "10:30 AM"
+      },
+      {
+        "activity": "Photographer arrives: Detail shots (rings, dress, invites, shoes)",
+        "id": "r_bbae06",
+        "location": "Suites & Grounds",
+        "responsible": "Photographer",
+        "time": "01:00 PM"
+      },
+      {
+        "activity": "Couple 'First Look' & Romantic Couple Portraits",
+        "id": "r_5ca11b",
+        "location": "Courtyard Garden",
+        "responsible": "Coordinator & Photographer",
+        "time": "02:30 PM"
+      },
+      {
+        "activity": "Wedding Party & Immediate Family Group Photos",
+        "id": "r_2ba67b",
+        "location": "Garden Terrace",
+        "responsible": "Photographer",
+        "time": "03:45 PM"
+      },
+      {
+        "activity": "Guest Arrival: Welcome drink station & acoustic prelude music",
+        "id": "r_4e0ad9",
+        "location": "Ceremony Entry",
+        "responsible": "Catering Lead & Musicians",
+        "time": "04:30 PM"
+      },
+      {
+        "activity": "Ceremony Processional & Vows Exchange",
+        "id": "r_95fa94",
+        "location": "Main Lawn",
+        "responsible": "Officiant & Couple",
+        "time": "05:00 PM"
+      },
+      {
+        "activity": "Cocktail Hour: Passed hors d'oeuvres & signature cocktails",
+        "id": "r_3b2290",
+        "location": "Veranda",
+        "responsible": "Catering & DJ",
+        "time": "05:40 PM"
+      },
+      {
+        "activity": "Guests seated; Grand Entrance & Welcome Toast",
+        "id": "r_b1cf2d",
+        "location": "Reception Hall",
+        "responsible": "DJ & Couple",
+        "time": "06:50 PM"
+      },
+      {
+        "activity": "Dinner Service & Speeches / Toasts",
+        "id": "r_38a0fe",
+        "location": "Reception Hall",
+        "responsible": "Catering & Speakers",
+        "time": "07:15 PM"
+      },
+      {
+        "activity": "First Dance & Parent Dances",
+        "id": "r_cb34bc",
+        "location": "Dance Floor",
+        "responsible": "DJ & Couple",
+        "time": "08:30 PM"
+      },
+      {
+        "activity": "Dance Floor Officially Opens & Dessert Display Unveiled",
+        "id": "r_7741c1",
+        "location": "Dance Floor",
+        "responsible": "DJ",
+        "time": "08:45 PM"
+      },
+      {
+        "activity": "Grand Sparkler Send-off & After-party departure",
+        "id": "r_f9ce1a",
+        "location": "Main Exit",
+        "responsible": "Coordinator",
+        "time": "11:00 PM"
+      }
+    ],
+    "subType": "Rustic Alpine Romance",
+    "theme": "Cozy alpine lodge with warm pine, white florals, and crackling stone hearths",
+    "timelineMilestones": [
+      {
+        "completed": false,
+        "dueDate": "2026-11-24",
+        "id": "m_6d933a",
+        "phase": "9+ Months Out",
+        "task": "Finalize venue, secure wedding date, and establish budget guardrails"
+      },
+      {
+        "completed": false,
+        "dueDate": "2027-02-22",
+        "id": "m_80a806",
+        "phase": "6 Months Out",
+        "task": "Contract core vendors: Photographer, Caterer, DJ, and Florist"
+      },
+      {
+        "completed": false,
+        "dueDate": "2027-05-23",
+        "id": "m_b0e487",
+        "phase": "3 Months Out",
+        "task": "Mail formal invitations, conduct menu tasting, order wedding rings"
+      },
+      {
+        "completed": false,
+        "dueDate": "2027-07-07",
+        "id": "m_d45abc",
+        "phase": "6 Weeks Out",
+        "task": "Finalize music cue lists, order ceremony stationery, book beauty trials"
+      },
+      {
+        "completed": false,
+        "dueDate": "2027-08-07",
+        "id": "m_7e0824",
+        "phase": "2 Weeks Out",
+        "task": "Submit final guest headcount to caterer and build final table seating plan"
+      },
+      {
+        "completed": false,
+        "dueDate": "2027-08-19",
+        "id": "m_d0c43e",
+        "phase": "2 Days Before",
+        "task": "Pick up attire, drop off decor at venue, hold rehearsal dinner & ceremony run-through"
+      },
+      {
+        "completed": false,
+        "dueDate": "2027-08-21",
+        "id": "m_4602bd",
+        "phase": "Wedding Day",
+        "task": "Relax and celebrate! Follow day-of run of show schedule."
+      },
+      {
+        "completed": true,
+        "dueDate": "2027-08-07",
+        "id": "m_custom_1",
+        "phase": "2 Weeks Out",
+        "task": "Pick up custom wood mountain guestbook"
+      }
+    ],
+    "title": "Maya & Julian's Mountain Lodge Wedding",
+    "totalBudget": 42000.0,
+    "vendors": [
+      {
+        "category": "Venue",
+        "contact": "events@venuebooking.com",
+        "id": "v_d96392",
+        "name": "Aspen Pine Crest Lodge, CO Manager",
+        "notes": "Checking package inclusions for sound and curfew",
+        "phone": "(555) 234-5678",
+        "quoted": 10500,
+        "status": "contacted"
+      },
+      {
+        "category": "Catering",
+        "contact": "catering@artisangroup.com",
+        "id": "v_02068e",
+        "name": "Artisan Harvest Catering",
+        "notes": "Requesting sample tasting menu",
+        "phone": "(555) 876-5432",
+        "quoted": 12600,
+        "status": "to_research"
+      },
+      {
+        "category": "Photography",
+        "contact": "hello@fineartphoto.com",
+        "id": "v_89a77b",
+        "name": "Fine Art Storytelling Co.",
+        "notes": "Checking availability for chosen date",
+        "phone": "(555) 432-1098",
+        "quoted": 5880,
+        "status": "to_research"
+      },
+      {
+        "category": "Floral & Decor",
+        "contact": "flora@botanicaldesign.com",
+        "id": "v_643011",
+        "name": "Botanical Studio Designs",
+        "notes": "Send color palette and ceremony arch concept",
+        "phone": "(555) 654-9870",
+        "quoted": 4200,
+        "status": "to_research"
+      },
+      {
+        "category": "Entertainment",
+        "contact": "booking@vibedj.com",
+        "id": "v_7dd33b",
+        "name": "Vibe Elevation DJ & Live Sound",
+        "notes": "Includes lapel mics and dance floor lighting",
+        "phone": "(555) 345-6789",
+        "quoted": 2940,
+        "status": "to_research"
+      }
+    ]
+  },
+  {
     "id": "evt-wedding-tuscan",
     "title": "Elena & Marcus's Tuscan Garden Wedding",
     "eventType": "wedding",

@@ -1,6 +1,6 @@
 """
 Backend Test Suite for PlanGenius AI
-Tests storage, AI generators, and Flask REST endpoints.
+Tests storage, AI generators, Flask REST endpoints, security headers, and input validation.
 """
 
 import unittest
@@ -12,11 +12,31 @@ import ai_engine
 
 
 class TestPlanGeniusBackend(unittest.TestCase):
+    """Comprehensive test case for PlanGenius AI REST backend and business logic."""
+
     def setUp(self):
         self.client = app.test_client()
         storage.reset_to_samples()
 
+    def test_health_check(self):
+        """Test health check monitoring endpoint."""
+        resp = self.client.get("/api/health")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.get_json()
+        self.assertEqual(data.get("status"), "healthy")
+        self.assertEqual(data.get("service"), "PlanGenius AI API")
+
+    def test_security_headers(self):
+        """Verify that production-grade security headers are present on all responses."""
+        resp = self.client.get("/api/events")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.headers.get("X-Content-Type-Options"), "nosniff")
+        self.assertEqual(resp.headers.get("X-Frame-Options"), "SAMEORIGIN")
+        self.assertEqual(resp.headers.get("X-XSS-Protection"), "1; mode=block")
+        self.assertEqual(resp.headers.get("Referrer-Policy"), "strict-origin-when-cross-origin")
+
     def test_list_events(self):
+        """Test listing saved events returns correct schema and seeded samples."""
         resp = self.client.get("/api/events")
         self.assertEqual(resp.status_code, 200)
         data = resp.get_json()
@@ -24,6 +44,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertGreaterEqual(len(data.get("events", [])), 3)
 
     def test_get_event(self):
+        """Test fetching a specific event by ID."""
         resp = self.client.get("/api/events/evt-wedding-tuscan")
         self.assertEqual(resp.status_code, 200)
         data = resp.get_json()
@@ -37,8 +58,16 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertIn("creativeIdeas", event)
         self.assertIn("colorPalette", event)
 
+    def test_get_nonexistent_event(self):
+        """Test that requesting an invalid event ID returns 404."""
+        resp = self.client.get("/api/events/evt-nonexistent-999")
+        self.assertEqual(resp.status_code, 404)
+        data = resp.get_json()
+        self.assertFalse(data.get("success"))
+
     def test_local_ai_plan_generation(self):
-        # Test wedding
+        """Test intelligent offline generation across Wedding, Birthday, and Community types."""
+        # Wedding
         w_params = {
             "eventType": "wedding",
             "title": "Sam & Alex Waterfront Wedding",
@@ -60,7 +89,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertGreater(len(w_plan["creativeIdeas"]), 2)
         self.assertEqual(len(w_plan["colorPalette"]), 5)
 
-        # Test birthday
+        # Birthday
         b_params = {
             "eventType": "birthday",
             "title": "Liam's Dinosaur 5th Birthday",
@@ -78,7 +107,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertEqual(b_plan["eventType"], "birthday")
         self.assertGreater(len(b_plan["budgetItems"]), 4)
 
-        # Test community
+        # Community
         c_params = {
             "eventType": "community",
             "title": "Greenfield Summer Hackathon & Showcase",
@@ -97,6 +126,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertGreater(len(c_plan["budgetItems"]), 5)
 
     def test_copilot_chat(self):
+        """Test conversational Co-pilot advice generation with context grounding."""
         event = storage.get_event("evt-wedding-tuscan")
         resp = self.client.post("/api/chat", json={
             "messages": [{"role": "user", "content": "How can I reduce my budget by 15%?"}],
@@ -109,6 +139,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertIn("Budget Reduction", data.get("reply", ""))
 
     def test_vendor_email_draft(self):
+        """Test drafting bespoke vendor outreach letters."""
         event = storage.get_event("evt-wedding-tuscan")
         vendor = event["vendors"][0]
         resp = self.client.post("/api/vendor-email", json={
@@ -121,7 +152,21 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertIn("Subject:", data.get("email"))
         self.assertIn(vendor["name"], data.get("email"))
 
+    def test_extra_ideas_generator(self):
+        """Test brainstorming additional creative ideas."""
+        event = storage.get_event("evt-wedding-tuscan")
+        resp = self.client.post("/api/extra-ideas", json={
+            "category": "decor",
+            "event": event
+        })
+        self.assertEqual(resp.status_code, 200)
+        data = resp.get_json()
+        self.assertTrue(data.get("success"))
+        self.assertIsInstance(data.get("ideas"), list)
+        self.assertGreaterEqual(len(data.get("ideas")), 1)
+
     def test_export_ics(self):
+        """Test RFC 5545 iCalendar stream generation."""
         resp = self.client.get("/api/events/evt-wedding-tuscan/export-ics")
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, "text/calendar; charset=utf-8")
@@ -132,6 +177,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertIn("Elena & Marcus", ics_text)
 
     def test_save_and_delete_event(self):
+        """Test creating, reading, updating, and deleting an event lifecycle."""
         new_event = {
             "title": "Test Pop-Up Dinner Party",
             "eventType": "birthday",
@@ -161,8 +207,16 @@ class TestPlanGeniusBackend(unittest.TestCase):
         get_again = self.client.get(f"/api/events/{event_id}")
         self.assertEqual(get_again.status_code, 404)
 
+    def test_invalid_event_save_returns_400(self):
+        """Test that saving an event without title returns 400 Bad Request."""
+        resp = self.client.post("/api/events", json={"totalBudget": 5000})
+        self.assertEqual(resp.status_code, 400)
+        data = resp.get_json()
+        self.assertFalse(data.get("success"))
+        self.assertIn("title is required", data.get("error", ""))
+
     def test_groq_key_validation(self):
-        # Empty key should return 400
+        """Test empty Groq API key returns 400 validation error."""
         resp = self.client.post("/api/test-groq-key", json={"apiKey": ""})
         self.assertEqual(resp.status_code, 400)
         data = resp.get_json()
@@ -170,7 +224,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertIn("cannot be empty", data.get("error"))
 
     def test_groq_provider_routing_and_fallback(self):
-        # When groq provider is requested with a mock key or empty key, it falls back cleanly
+        """Test that invalid keys trigger clear fallback or helpful error reporting."""
         params = {
             "eventType": "wedding",
             "title": "Groq Alpine Nuptials",
@@ -192,7 +246,7 @@ class TestPlanGeniusBackend(unittest.TestCase):
         self.assertTrue(data.get("success"))
         self.assertEqual(data.get("event", {}).get("eventType"), "wedding")
 
-        # Chat with invalid groq key reports error rather than prebuilt mock
+        # Chat with invalid groq key reports error rather than silent prebuilt message
         chat_resp = self.client.post("/api/chat", json={
             "messages": [{"role": "user", "content": "How can I reduce expenses?"}],
             "provider": "groq",
@@ -202,17 +256,15 @@ class TestPlanGeniusBackend(unittest.TestCase):
         })
         self.assertEqual(chat_resp.status_code, 200)
         self.assertTrue(chat_resp.get_json().get("success"))
-        # Must report Groq API Error rather than silent prebuilt message
         self.assertIn("Groq", chat_resp.get_json().get("reply"))
 
-        # Explicit local engine test
-        local_resp = self.client.post("/api/chat", json={
-            "messages": [{"role": "user", "content": "How can I reduce expenses?"}],
-            "provider": "local",
-            "currentEvent": data.get("event")
-        })
-        self.assertEqual(local_resp.status_code, 200)
-        self.assertIn("Budget Reduction", local_resp.get_json().get("reply"))
+    def test_reset_samples_endpoint(self):
+        """Test resetting storage to sample dataset."""
+        resp = self.client.post("/api/reset-samples")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.get_json()
+        self.assertTrue(data.get("success"))
+        self.assertGreaterEqual(len(data.get("events", [])), 4)
 
 
 if __name__ == "__main__":
