@@ -1,6 +1,12 @@
 # PlanGenius AI 🌟
 ### GenAI-Powered Event Planning Assistant for Weddings, Birthdays & Community Events
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-6366F1?style=for-the-badge&logo=github)](https://zenithchill.github.io/plangenius-ai/)
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Groq](https://img.shields.io/badge/Groq_Cloud-Ultra_Fast_Inference-F97316?style=for-the-badge&logo=fastapi)](https://console.groq.com)
+
+🔗 **Live Interactive App**: [https://zenithchill.github.io/plangenius-ai/](https://zenithchill.github.io/plangenius-ai/)
+
 PlanGenius AI is a comprehensive planning assistant engineered to help users organize memorable **Weddings**, **Birthdays**, and **Community Events** with intelligent budgets, phased milestone timelines, day-of run-of-shows, vendor checklists with AI negotiation/inquiry email drafters, and personalized creative concepts.
 
 ---
