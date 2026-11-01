@@ -33,4 +33,5 @@ jobs:
 
     - name: Verify Python Syntax & Lint
       run: |
-        python -m py_compile app.py ai_engine.py storage.py sample_data.py
+        python -m py_compile app.py ai_engine.py storage.py sample_data.py models.py
+

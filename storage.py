@@ -1,11 +1,12 @@
 """
 Thread-safe local JSON storage module for PlanGenius AI.
-Manages persistent event data in data/events.json with atomic writes.
+Manages persistent event data in data/events.json using modern pathlib.Path
+and atomic replacement for concurrency safety.
 """
 
 from typing import List, Dict, Any, Optional
+from pathlib import Path
 import json
-import os
 import threading
 import copy
 import logging
@@ -14,16 +15,17 @@ from sample_data import SAMPLE_EVENTS
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
-DATA_FILE = os.path.join(DATA_DIR, "events.json")
+# Standard library pathlib for clean, cross-platform path management
+DATA_DIR = Path(__file__).resolve().parent / "data"
+DATA_FILE = DATA_DIR / "events.json"
 _lock = threading.Lock()
 
 
 def _ensure_data_file() -> None:
     """Ensure that the data storage directory and default data file exist."""
-    os.makedirs(DATA_DIR, exist_ok=True)
-    if not os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "w", encoding="utf-8") as f:
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    if not DATA_FILE.exists():
+        with DATA_FILE.open("w", encoding="utf-8") as f:
             json.dump(SAMPLE_EVENTS, f, indent=2, ensure_ascii=False)
 
 
@@ -36,7 +38,7 @@ def get_all_events() -> List[Dict[str, Any]]:
     _ensure_data_file()
     with _lock:
         try:
-            with open(DATA_FILE, "r", encoding="utf-8") as f:
+            with DATA_FILE.open("r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
             logger.error("Error reading storage file %s: %s", DATA_FILE, e)
@@ -76,9 +78,9 @@ def save_event(event_data: Dict[str, Any]) -> Dict[str, Any]:
 
     with _lock:
         events: List[Dict[str, Any]] = []
-        if os.path.exists(DATA_FILE):
+        if DATA_FILE.exists():
             try:
-                with open(DATA_FILE, "r", encoding="utf-8") as f:
+                with DATA_FILE.open("r", encoding="utf-8") as f:
                     events = json.load(f)
             except Exception as e:
                 logger.warning("Could not parse existing events file, re-initializing: %s", e)
@@ -93,10 +95,10 @@ def save_event(event_data: Dict[str, Any]) -> Dict[str, Any]:
         if not found:
             events.insert(0, event_data)
 
-        temp_file = f"{DATA_FILE}.tmp"
-        with open(temp_file, "w", encoding="utf-8") as f:
+        temp_file = DATA_FILE.with_suffix(".json.tmp")
+        with temp_file.open("w", encoding="utf-8") as f:
             json.dump(events, f, indent=2, ensure_ascii=False)
-        os.replace(temp_file, DATA_FILE)
+        temp_file.replace(DATA_FILE)
 
     return event_data
 
@@ -113,19 +115,19 @@ def delete_event(event_id: str) -> bool:
     _ensure_data_file()
     with _lock:
         events: List[Dict[str, Any]] = []
-        if os.path.exists(DATA_FILE):
+        if DATA_FILE.exists():
             try:
-                with open(DATA_FILE, "r", encoding="utf-8") as f:
+                with DATA_FILE.open("r", encoding="utf-8") as f:
                     events = json.load(f)
             except Exception as e:
                 logger.error("Error reading events during deletion: %s", e)
                 events = []
 
         new_events = [ev for ev in events if ev.get("id") != event_id]
-        temp_file = f"{DATA_FILE}.tmp"
-        with open(temp_file, "w", encoding="utf-8") as f:
+        temp_file = DATA_FILE.with_suffix(".json.tmp")
+        with temp_file.open("w", encoding="utf-8") as f:
             json.dump(new_events, f, indent=2, ensure_ascii=False)
-        os.replace(temp_file, DATA_FILE)
+        temp_file.replace(DATA_FILE)
     return True
 
 
@@ -137,8 +139,8 @@ def reset_to_samples() -> List[Dict[str, Any]]:
     """
     _ensure_data_file()
     with _lock:
-        temp_file = f"{DATA_FILE}.tmp"
-        with open(temp_file, "w", encoding="utf-8") as f:
+        temp_file = DATA_FILE.with_suffix(".json.tmp")
+        with temp_file.open("w", encoding="utf-8") as f:
             json.dump(SAMPLE_EVENTS, f, indent=2, ensure_ascii=False)
-        os.replace(temp_file, DATA_FILE)
+        temp_file.replace(DATA_FILE)
     return SAMPLE_EVENTS

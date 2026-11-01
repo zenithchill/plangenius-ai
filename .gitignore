@@ -23,9 +23,12 @@ wheels/
 # Virtual Environments
 env/
 venv/
+.venv/
 ENV/
 env.bak/
 venv.bak/
+.pytest_cache/
+
 
 # Environment variables & secrets
 .env

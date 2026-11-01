@@ -25,6 +25,29 @@ class TestPlanGeniusBackend(unittest.TestCase):
         data = resp.get_json()
         self.assertEqual(data.get("status"), "healthy")
         self.assertEqual(data.get("service"), "PlanGenius AI API")
+        self.assertIn("libraries", data)
+
+    def test_pydantic_schema_validation(self):
+        """Verify Pydantic models validate and reject invalid schemas."""
+        from models import EventPlanModel
+        # Valid event model
+        ev = EventPlanModel(
+            title="Valid Gala Event",
+            date="2027-09-15",
+            guestCount=100,
+            totalBudget=15000.0
+        )
+        self.assertEqual(ev.title, "Valid Gala Event")
+        self.assertEqual(ev.totalBudget, 15000.0)
+
+        # Rejects empty title
+        with self.assertRaises(Exception):
+            EventPlanModel(title="   ", date="2027-09-15")
+
+        # Rejects negative guest count
+        with self.assertRaises(Exception):
+            EventPlanModel(title="Valid", date="2027-09-15", guestCount=-5)
+
 
     def test_security_headers(self):
         """Verify that production-grade security headers are present on all responses."""

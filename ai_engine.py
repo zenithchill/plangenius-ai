@@ -1,39 +1,46 @@
 """
-Intelligent Planning Engine and Gemini API integration for PlanGenius AI.
-Provides both high-fidelity deterministic/stochastic local planning logic
-and live Google Gemini API orchestration.
+Intelligent Planning Engine and Multi-Model AI Orchestration for PlanGenius AI.
+Provides high-fidelity deterministic local planning logic, official Groq Cloud SDK,
+and Google Gemini API orchestration.
 """
 
+from typing import List, Dict, Any, Optional
 import json
 import uuid
 import datetime
 import urllib.request
 import urllib.error
 import os
+import logging
+from pathlib import Path
 
-# Automatically load .env if present
-_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-if os.path.exists(_env_path):
-    try:
-        with open(_env_path, "r", encoding="utf-8") as _f:
-            for _line in _f:
-                _line = _line.strip()
-                if _line and not _line.startswith("#") and "=" in _line:
-                    _k, _v = _line.split("=", 1)
-                    os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
-    except Exception:
-        pass
+# Use python-dotenv library to cleanly load environment
+try:
+    from dotenv import load_dotenv
+    env_file = Path(__file__).resolve().parent / ".env"
+    if env_file.exists():
+        load_dotenv(env_file)
+except ImportError:
+    pass
+
+# Use official groq library when available
+try:
+    from groq import Groq
+    HAVE_GROQ_SDK = True
+except ImportError:
+    HAVE_GROQ_SDK = False
+
+logger = logging.getLogger(__name__)
 
 DEFAULT_GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 DEFAULT_GROQ_MODEL = "qwen/qwen3.8-27b"
 
 
-def call_gemini_api(prompt, system_instruction="", api_key="", model="gemini-2.5-flash", json_mode=False):
+def call_gemini_api(prompt: str, system_instruction: str = "", api_key: str = "", model: str = "gemini-2.5-flash", json_mode: bool = False) -> str:
     """Call Google Generative AI REST API with given model and key."""
     if not api_key:
         raise ValueError("Missing Gemini API Key")
 
-    # Clean model name if necessary
     model_name = model.strip()
     if not model_name.startswith("gemini-"):
         model_name = "gemini-2.5-flash"
@@ -81,26 +88,51 @@ def call_gemini_api(prompt, system_instruction="", api_key="", model="gemini-2.5
         raise RuntimeError(f"Failed to connect to Gemini API: {str(e)}")
 
 
-def call_groq_api(prompt, system_instruction="", api_key="", model="qwen/qwen3.8-27b", json_mode=False):
-    """Call Groq Cloud REST API with given model and key."""
+def call_groq_api(prompt: str, system_instruction: str = "", api_key: str = "", model: str = "qwen/qwen3.8-27b", json_mode: bool = False) -> str:
+    """Call Groq Cloud API with given model and key using official Groq SDK with failover."""
     if not api_key:
         raise ValueError("Missing Groq API Key")
 
     model_name = model.strip() if model else "qwen/qwen3.8-27b"
-    url = "https://api.groq.com/openai/v1/chat/completions"
-
     messages = []
     if system_instruction:
         messages.append({"role": "system", "content": system_instruction})
     messages.append({"role": "user", "content": prompt})
 
+    # Use official Groq SDK client
+    if HAVE_GROQ_SDK:
+        try:
+            client = Groq(api_key=api_key.strip())
+            kwargs = {
+                "model": model_name,
+                "messages": messages,
+                "temperature": 0.7,
+                "max_tokens": 750,
+            }
+            if json_mode:
+                kwargs["response_format"] = {"type": "json_object"}
+            completion = client.chat.completions.create(**kwargs)
+            choice = completion.choices[0] if completion.choices else None
+            return choice.message.content if choice and choice.message else ""
+        except Exception as e:
+            err_str = str(e)
+            if "json_validate_failed" in err_str and json_mode:
+                logger.info("Groq json_validate_failed. Retrying in raw prompt mode...")
+                return call_groq_api(prompt, system_instruction=system_instruction, api_key=api_key, model=model_name, json_mode=False)
+            for alt_model in ["openai/gpt-oss-20b", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"]:
+                if alt_model != model_name and ("rate_limit" in err_str.lower() or "429" in err_str or "model_not_found" in err_str.lower()):
+                    logger.info("Groq %s rate limit reached. Auto-failing over to %s...", model_name, alt_model)
+                    return call_groq_api(prompt, system_instruction=system_instruction, api_key=api_key, model=alt_model, json_mode=json_mode)
+            raise RuntimeError(f"Groq API Error: {err_str}")
+
+    # Fallback to standard urllib implementation
+    url = "https://api.groq.com/openai/v1/chat/completions"
     payload = {
         "model": model_name,
         "messages": messages,
         "temperature": 0.7,
         "max_tokens": 750
     }
-
     if json_mode:
         payload["response_format"] = {"type": "json_object"}
 
@@ -125,22 +157,35 @@ def call_groq_api(prompt, system_instruction="", api_key="", model="qwen/qwen3.8
     except urllib.error.HTTPError as e:
         error_msg = e.read().decode("utf-8", errors="ignore")
         if "json_validate_failed" in error_msg and json_mode:
-            print("Groq json_validate_failed. Retrying in raw prompt mode...")
+            logger.info("Groq json_validate_failed. Retrying in raw prompt mode...")
             return call_groq_api(prompt, system_instruction=system_instruction, api_key=api_key, model=model_name, json_mode=False)
-        # Failover across known fast models if 429 rate limit or model not found
         for alt_model in ["openai/gpt-oss-20b", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"]:
             if alt_model != model_name and (e.code == 429 or "rate_limit" in error_msg or "model_not_found" in error_msg):
-                print(f"Groq {model_name} issue ({e.code}). Auto-failing over to {alt_model}...")
+                logger.info("Groq %s issue (%s). Auto-failing over to %s...", model_name, e.code, alt_model)
                 return call_groq_api(prompt, system_instruction=system_instruction, api_key=api_key, model=alt_model, json_mode=json_mode)
         raise RuntimeError(f"Groq API Error ({e.code}): {error_msg}")
     except Exception as e:
         raise RuntimeError(f"Failed to connect to Groq API: {str(e)}")
 
 
-def get_groq_models(api_key):
-    """Fetch available models from Groq Cloud for the provided key."""
+def get_groq_models(api_key: str) -> List[str]:
+    """Fetch available models from Groq Cloud using official Groq SDK with fallback."""
     if not api_key:
         return []
+
+    if HAVE_GROQ_SDK:
+        try:
+            client = Groq(api_key=api_key.strip())
+            models_data = client.models.list()
+            models = []
+            for m in models_data.data:
+                mid = m.id
+                if "whisper" not in mid and "guard" not in mid and "orpheus" not in mid:
+                    models.append(mid)
+            return models
+        except Exception as e:
+            logger.warning("Groq SDK models list error, falling back to REST: %s", e)
+
     url = "https://api.groq.com/openai/v1/models"
     req = urllib.request.Request(
         url,
@@ -154,10 +199,10 @@ def get_groq_models(api_key):
         models = []
         for m in data.get("data", []):
             mid = m.get("id", "")
-            # filter out non-chat models like whisper or guard
             if "whisper" not in mid and "guard" not in mid and "orpheus" not in mid:
                 models.append(mid)
         return models
+
 
 
 def _calculate_due_dates(target_date_str, offsets_in_days):

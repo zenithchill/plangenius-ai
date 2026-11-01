@@ -5,8 +5,10 @@
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Groq](https://img.shields.io/badge/Groq_Cloud-Ultra_Fast_Inference-F97316?style=for-the-badge&logo=fastapi)](https://console.groq.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-18%2F18%20Passing-brightgreen?style=for-the-badge&logo=pytest)](./test_backend.py)
+[![Pydantic v2](https://img.shields.io/badge/Pydantic-v2-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://docs.pydantic.dev)
+[![Tests](https://img.shields.io/badge/Tests-19%2F19%20Passing-brightgreen?style=for-the-badge&logo=pytest)](./test_backend.py)
 [![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-success?style=for-the-badge)](./static/index.html)
+
 
 🔗 **Live Interactive App**: [https://zenithchill.github.io/plangenius-ai/](https://zenithchill.github.io/plangenius-ai/)  
 🎥 **Walkthrough Video**: [`plangenius_ai_submission_demo.mp4`](./plangenius_ai_submission_demo.mp4)  
